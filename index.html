@@ -313,6 +313,16 @@
           if (card.tal) grouped[key].tallas[card.tal] = stk;
         });
         Object.values(grouped).forEach(function(c){ if (Object.keys(c.tallas).length > 0) raw.push(c); });
+        raw.sort(function(a, b) {
+          var fields = ['equipo','dorsal','version','color','manga'];
+          for (var i = 0; i < fields.length; i++) {
+            var va = (a[fields[i]] || '').toLowerCase();
+            var vb = (b[fields[i]] || '').toLowerCase();
+            if (va < vb) return -1;
+            if (va > vb) return 1;
+          }
+          return 0;
+        });
         allCards = raw;
         setSyncStatus(true, 'En tiempo real');
         if (raw.length === 0) {
