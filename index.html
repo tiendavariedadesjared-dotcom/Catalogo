@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variedades Jared — Catálogo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f5f5f4; --surface: #ffffff; --border: rgba(0,0,0,0.1);
+      --border-strong: rgba(0,0,0,0.18); --text-primary: #1a1a18;
+      --text-secondary: #6b6b67; --text-hint: #9c9c97;
+      --green: #1D9E75; --green-light: #E1F5EE; --green-dark: #0F6E56;
+      --radius-md: 8px; --radius-lg: 12px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1a18; --surface: #242422; --border: rgba(255,255,255,0.1);
+        --border-strong: rgba(255,255,255,0.18); --text-primary: #f0f0ec;
+        --text-secondary: #a0a09c; --text-hint: #6b6b67;
+        --green-light: #0a3d2c; --green-dark: #5DCAA5;
+      }
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-primary); min-height: 100vh; }
+    header { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 1rem 1.25rem; position: sticky; top: 0; z-index: 10; }
+    .header-top { display: flex; align-items: center; gap: 12px; margin-bottom: 0.875rem; }
+    .logo { width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--green); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 500; font-size: 14px; flex-shrink: 0; }
+    .brand-name { font-size: 17px; font-weight: 500; }
+    .brand-sub { font-size: 12px; color: var(--text-secondary); }
+    .sync-badge { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); background: var(--bg); border: 0.5px solid var(--border); border-radius: 20px; padding: 4px 10px; white-space: nowrap; }
+    .sync-dot { width: 7px; height: 7px; border-radius: 50%; background: #aaa; flex-shrink: 0; transition: background 0.3s; }
+    .sync-dot.ok { background: var(--green); }
+    .sync-dot.err { background: #E24B4A; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .search-wrap { position: relative; flex: 1; min-width: 180px; }
+    .search-wrap i { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-hint); font-size: 16px; pointer-events: none; }
+    .search-wrap input { width: 100%; padding: 7px 10px 7px 32px; border: 0.5px solid var(--border-strong); border-radius: var(--radius-md); background: var(--bg); color: var(--text-primary); font-size: 14px; font-family: inherit; outline: none; }
+    .search-wrap input:focus { border-color: var(--green); }
+    .cat-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pill { border: 0.5px solid var(--border-strong); border-radius: 20px; padding: 5px 14px; font-size: 13px; cursor: pointer; background: var(--surface); color: var(--text-secondary); font-family: inherit; transition: all 0.15s; }
+    .pill:hover { border-color: var(--green); color: var(--green); }
+    .pill.active { background: var(--green); border-color: var(--green); color: #fff; }
+    .toolbar { padding: 0.75rem 1.25rem; display: flex; align-items: center; }
+    .counter { font-size: 13px; color: var(--text-secondary); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; padding: 0 1.25rem 2rem; }
+    @media (max-width: 480px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 0 0.75rem 2rem; } }
+    .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: transform 0.12s, box-shadow 0.12s; }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .card-img-wrap { width: 100%; aspect-ratio: 4/5; background: var(--bg); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .card-img-wrap .no-img { color: var(--text-hint); font-size: 44px; }
+    .card-body { padding: 10px 12px 12px; }
+    .card-cat { font-size: 11px; font-weight: 500; border-radius: 4px; padding: 2px 7px; display: inline-block; margin-bottom: 6px; }
+    .cat-c { background: var(--green-light); color: var(--green-dark); }
+    .cat-d { background: #FAEEDA; color: #854F0B; }
+    .cat-n { background: #E6F1FB; color: #185FA5; }
+    @media (prefers-color-scheme: dark) { .cat-d { background: #3d2a05; color: #FAC775; } .cat-n { background: #0a1f3d; color: #85B7EB; } }
+    .card-title { font-size: 14px; font-weight: 500; line-height: 1.3; margin-bottom: 2px; }
+    .card-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; min-height: 16px; }
+    .variants { font-size: 11px; color: var(--text-hint); margin-bottom: 8px; line-height: 1.6; }
+    .tallas { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+    .talla-chip { font-size: 11px; border: 0.5px solid var(--green); border-radius: 4px; padding: 2px 7px; color: var(--green-dark); background: var(--green-light); }
+    @media (prefers-color-scheme: dark) { .talla-chip { color: #5DCAA5; } }
+    .state { padding: 4rem 1.25rem; text-align: center; color: var(--text-secondary); font-size: 14px; }
+    .state i { font-size: 40px; display: block; margin-bottom: 12px; color: var(--text-hint); }
+
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: var(--surface); border-radius: var(--radius-lg); max-width: 480px; width: 100%; max-height: 92vh; overflow: hidden; display: flex; flex-direction: column; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
+    .modal-close { background: none; border: none; cursor: pointer; color: var(--text-secondary); font-size: 22px; line-height: 1; padding: 4px; }
+    .modal-photo { position: relative; background: var(--bg); flex-shrink: 0; height: 320px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .modal-photo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .modal-no-img { color: var(--text-hint); font-size: 60px; }
+    .photo-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.45); border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; color: #fff; font-size: 18px; display: flex; align-items: center; justify-content: center; }
+    .photo-btn.prev { left: 8px; }
+    .photo-btn.next { right: 8px; }
+    .photo-counter { position: absolute; bottom: 8px; right: 12px; font-size: 11px; color: #fff; background: rgba(0,0,0,0.5); border-radius: 10px; padding: 2px 8px; }
+    .modal-thumbs { display: flex; gap: 6px; padding: 8px 16px; overflow-x: auto; border-top: 0.5px solid var(--border); flex-shrink: 0; }
+    .modal-thumb { width: 52px; height: 52px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid transparent; flex-shrink: 0; }
+    .modal-thumb.active { border-color: var(--green); }
+    .modal-info { padding: 10px 16px 14px; border-top: 0.5px solid var(--border); flex-shrink: 0; }
+    .modal-variants { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
+    .modal-tallas { display: flex; flex-wrap: wrap; gap: 4px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo">VJ</div>
+    <div>
+      <div class="brand-name">Variedades Jared</div>
+      <div class="brand-sub">Camisas disponibles</div>
+    </div>
+    <div class="sync-badge">
+      <div class="sync-dot" id="sync-dot"></div>
+      <span id="sync-label">Conectando...</span>
+    </div>
+  </div>
+  <div class="filters">
+    <div class="search-wrap">
+      <i class="ti ti-search" aria-hidden="true"></i>
+      <input type="search" id="q" placeholder="Buscar equipo, jugador..." oninput="filter()" autocomplete="off">
+    </div>
+    <div class="cat-pills">
+      <button class="pill active" data-cat="" onclick="setCat(this,'')">Todos</button>
+      <button class="pill" data-cat="Adulto" onclick="setCat(this,'Adulto')">Adulto</button>
+      <button class="pill" data-cat="Niño" onclick="setCat(this,'Niño')">Niño</button>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar" id="toolbar" style="display:none">
+  <span class="counter" id="counter"></span>
+</div>
+<div class="grid" id="grid" style="display:none"></div>
+<div class="state" id="state"><i class="ti ti-loader"></i>Cargando catálogo...</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div id="m-title" style="font-size:15px;font-weight:500"></div>
+        <div id="m-sub" style="font-size:12px;color:var(--text-secondary)"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-photo" id="m-photo">
+      <img id="m-img" src="" alt="" style="display:none">
+      <i class="ti ti-shirt modal-no-img" id="m-noimg"></i>
+      <button class="photo-btn prev" id="m-prev" onclick="changePhoto(-1)"><i class="ti ti-chevron-left"></i></button>
+      <button class="photo-btn next" id="m-next" onclick="changePhoto(1)"><i class="ti ti-chevron-right"></i></button>
+      <div class="photo-counter" id="m-counter"></div>
+    </div>
+    <div class="modal-thumbs" id="m-thumbs"></div>
+    <div class="modal-info">
+      <div class="modal-variants" id="m-variants"></div>
+      <div class="modal-tallas" id="m-tallas"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-app-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-firestore-compat.min.js"></script>
+<script>
+  var allCards = [];
+  var shownCards = [];
+  var activeCat = '';
+  var unsub = null;
+  var modalFotos = [];
+  var modalPhotoIdx = 0;
+  var modalCard = null;
+
+  function setCat(el, c) {
+    activeCat = c;
+    document.querySelectorAll('.pill').forEach(function(p){ p.classList.remove('active'); });
+    el.classList.add('active');
+    filter();
+  }
+
+  function filter() {
+    var q = (document.getElementById('q').value || '').toLowerCase().trim();
+    var shown = allCards.filter(function(c) {
+      var matchCat = true;
+      if (activeCat === 'Adulto') matchCat = c.categoria === 'Caballero' || c.categoria === 'Dama';
+      else if (activeCat === 'Niño') matchCat = c.categoria === 'Niño';
+      var haystack = [c.equipo, c.dorsal, c.color, c.version, c.manga, c.anio].concat(Object.values(c.extras || {})).join(' ').toLowerCase();
+      return matchCat && (!q || haystack.includes(q));
+    });
+    shownCards = shown;
+    renderCards(shown);
+  }
+
+  function catClass(cat) {
+    return cat === 'Dama' ? 'cat-d' : cat === 'Niño' ? 'cat-n' : 'cat-c';
+  }
+
+  function buildVariants(c) {
+    var parts = [c.color, c.version, c.manga, c.anio].filter(Boolean);
+    Object.values(c.extras || {}).forEach(function(v){ if(v) parts.push(v); });
+    return parts.join(' · ');
+  }
+
+  function renderCards(cards) {
+    var grid = document.getElementById('grid');
+    var toolbar = document.getElementById('toolbar');
+    var state = document.getElementById('state');
+    var counter = document.getElementById('counter');
+    if (cards.length === 0) {
+      grid.style.display = 'none'; toolbar.style.display = 'none';
+      state.style.display = 'block';
+      state.innerHTML = '<i class="ti ti-search-off"></i>Sin resultados.';
+      return;
+    }
+    state.style.display = 'none'; toolbar.style.display = 'flex'; grid.style.display = 'grid';
+    counter.textContent = cards.length + ' camisa' + (cards.length !== 1 ? 's' : '') + ' disponible' + (cards.length !== 1 ? 's' : '');
+    grid.innerHTML = cards.map(function(c, i) {
+      var tallas = c.tallas || {};
+      var tallasHTML = Object.entries(tallas).map(function(e){ return '<span class="talla-chip">'+e[0]+': '+e[1]+'</span>'; }).join('');
+      var variants = buildVariants(c);
+      var imgPart = c.portada
+        ? '<img src="'+c.portada+'" alt="'+c.equipo+'" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'block\'">'
+        : '';
+      var placeholder = '<i class="ti ti-shirt no-img" '+(c.portada?'style="display:none"':'')+' aria-hidden="true"></i>';
+      return '<div class="card" onclick="openModal('+i+')">'
+        + '<div class="card-img-wrap">'+imgPart+placeholder+'</div>'
+        + '<div class="card-body">'
+        + '<span class="card-cat '+catClass(c.categoria)+'">'+( c.categoria||'—')+'</span>'
+        + '<div class="card-title">'+(c.equipo||'—')+'</div>'
+        + '<div class="card-sub">'+(c.dorsal||'')+'</div>'
+        + (variants ? '<div class="variants">'+variants+'</div>' : '')
+        + '<div class="tallas">'+tallasHTML+'</div>'
+        + '</div></div>';
+    }).join('');
+  }
+
+  function openModal(i) {
+    modalCard = shownCards[i];
+    if (!modalCard) return;
+    modalFotos = modalCard.fotos || [];
+    modalPhotoIdx = 0;
+    for (var j = 0; j < modalFotos.length; j++) {
+      if (modalFotos[j].principal) { modalPhotoIdx = j; break; }
+    }
+    updateModal();
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function updateModal() {
+    if (!modalCard) return;
+    document.getElementById('m-title').textContent = modalCard.equipo + (modalCard.dorsal ? ' — ' + modalCard.dorsal : '');
+    document.getElementById('m-sub').textContent = [modalCard.color, modalCard.version, modalCard.manga, modalCard.anio].filter(Boolean).join(' · ');
+    var tallas = modalCard.tallas || {};
+    document.getElementById('m-tallas').innerHTML = Object.entries(tallas).map(function(e){ return '<span class="talla-chip">'+e[0]+': '+e[1]+'</span>'; }).join('');
+    document.getElementById('m-variants').textContent = Object.values(modalCard.extras || {}).filter(Boolean).join(' · ');
+    var hasFotos = modalFotos.length > 0;
+    var img = document.getElementById('m-img');
+    var noimg = document.getElementById('m-noimg');
+    if (hasFotos) {
+      img.src = modalFotos[modalPhotoIdx].url;
+      img.style.display = 'block';
+      noimg.style.display = 'none';
+    } else {
+      img.style.display = 'none';
+      noimg.style.display = 'block';
+    }
+    var showNav = modalFotos.length > 1;
+    document.getElementById('m-prev').style.display = showNav ? 'flex' : 'none';
+    document.getElementById('m-next').style.display = showNav ? 'flex' : 'none';
+    document.getElementById('m-counter').textContent = showNav ? (modalPhotoIdx+1)+' / '+modalFotos.length : '';
+    document.getElementById('m-thumbs').innerHTML = showNav ? modalFotos.map(function(f,i){
+      return '<img class="modal-thumb'+(i===modalPhotoIdx?' active':'')+'" src="'+f.url+'" onclick="setPhoto('+i+')">';
+    }).join('') : '';
+  }
+
+  function setPhoto(i) { modalPhotoIdx = i; updateModal(); }
+  function changePhoto(dir) { modalPhotoIdx = (modalPhotoIdx + dir + modalFotos.length) % modalFotos.length; updateModal(); }
+  function closeModal() { document.getElementById('modal').classList.remove('open'); document.body.style.overflow = ''; }
+  function handleOverlayClick(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('modal').classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft') changePhoto(-1);
+    if (e.key === 'ArrowRight') changePhoto(1);
+  });
+
+  function setSyncStatus(ok, label) {
+    document.getElementById('sync-dot').className = 'sync-dot ' + (ok ? 'ok' : 'err');
+    document.getElementById('sync-label').textContent = label;
+  }
+
+  function connect(project, apiKey) {
+    document.getElementById('state').innerHTML = '<i class="ti ti-loader"></i>Conectando...';
+    document.getElementById('state').style.display = 'block';
+    setSyncStatus(false, 'Conectando...');
+    try {
+      if (!firebase.apps.length) firebase.initializeApp({ apiKey: apiKey, projectId: project });
+      var db = firebase.firestore();
+      if (unsub) unsub();
+      unsub = db.collection('jared').doc('datos').onSnapshot(function(doc) {
+        var raw = [];
+        var data = doc.data() || {};
+        var items = [];
+        try { items = JSON.parse(data.inv || '[]'); } catch(e) { items = []; }
+        var grouped = {};
+        items.forEach(function(card) {
+          var stk = parseInt(card.stk) || 0;
+          if (stk <= 0) return;
+          var extras = card.extras || {};
+          var estilo = extras['Estilo'] || '';
+          var categoria = extras['Categoría'] || '';
+          var extrasOtros = Object.entries(extras).filter(function(e){ return e[0] !== 'Estilo' && e[0] !== 'Categoría'; }).sort(function(a,b){ return a[0].localeCompare(b[0]); });
+          var key = [card.eq, card.dor, card.col, card.ver, card['año'], estilo, extrasOtros.map(function(e){ return e[0]+'='+e[1]; }).join(',')].join('|');
+          if (!grouped[key]) {
+            var fotos = card.fotos || [];
+            var portadaFoto = fotos.find(function(f){ return f.principal; }) || fotos[0];
+            grouped[key] = {
+              equipo: card.eq || '', dorsal: card.dor || '', color: card.col || '',
+              version: card.ver || '', manga: estilo, anio: card['año'] || '',
+              categoria: categoria, extras: Object.fromEntries(extrasOtros),
+              portada: portadaFoto ? portadaFoto.url : '',
+              fotos: fotos, tallas: {}
+            };
+          }
+          if (card.tal) grouped[key].tallas[card.tal] = stk;
+        });
+        Object.values(grouped).forEach(function(c){ if (Object.keys(c.tallas).length > 0) raw.push(c); });
+        allCards = raw;
+        setSyncStatus(true, 'En tiempo real');
+        if (raw.length === 0) {
+          document.getElementById('state').innerHTML = '<i class="ti ti-box-off"></i>No hay camisas disponibles.';
+          document.getElementById('state').style.display = 'block';
+          document.getElementById('grid').style.display = 'none';
+          document.getElementById('toolbar').style.display = 'none';
+        } else { filter(); }
+      }, function() {
+        setSyncStatus(false, 'Error de conexión');
+        document.getElementById('state').innerHTML = '<i class="ti ti-wifi-off"></i>No se pudo conectar.';
+        document.getElementById('state').style.display = 'block';
+      });
+    } catch(e) {
+      setSyncStatus(false, 'Error');
+      document.getElementById('state').innerHTML = '<i class="ti ti-alert-circle"></i>Error: ' + e.message;
+      document.getElementById('state').style.display = 'block';
+    }
+  }
+
+  connect('variedades-jared', 'AIzaSyCi_LuHHxYZWEju23ejbm4rb5NAp_qUjbM');
+</script>
+</body>
+</html>
