@@ -107,10 +107,10 @@
       <i class="ti ti-search" aria-hidden="true"></i>
       <input type="search" id="q" placeholder="Buscar equipo, jugador..." oninput="filter()" autocomplete="off">
     </div>
-    <div class="cat-pills">
-      <button class="pill active" data-cat="" onclick="setCat(this,'')">Todos</button>
-      <button class="pill" data-cat="Adulto" onclick="setCat(this,'Adulto')">Adulto</button>
-      <button class="pill" data-cat="Niño" onclick="setCat(this,'Niño')">Niño</button>
+    <div class="cat-pills" id="cat-pills">
+      <button class="pill active" onclick="setCat(this,'')">Todos</button>
+      <button class="pill" onclick="setCat(this,'Adulto')">Adulto</button>
+      <button class="pill" onclick="setCat(this,'Niño')">Niño</button>
     </div>
     <div class="cat-pills" id="year-pills" style="margin-top:6px">
       <button class="pill active" data-year="" onclick="setYear(this,'')">Todos los años</button>
@@ -163,7 +163,7 @@
 
   function setCat(el, c) {
     activeCat = c;
-    document.querySelectorAll('.cat-pills:first-of-type .pill').forEach(function(p){ p.classList.remove('active'); });
+    document.querySelectorAll('#cat-pills .pill').forEach(function(p){ p.classList.remove('active'); });
     el.classList.add('active');
     filter();
   }
