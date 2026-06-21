@@ -224,7 +224,13 @@
     counter.textContent = cards.length + ' camisa' + (cards.length !== 1 ? 's' : '') + ' disponible' + (cards.length !== 1 ? 's' : '');
     grid.innerHTML = cards.map(function(c, i) {
       var tallas = c.tallas || {};
-      var tallasHTML = Object.entries(tallas).map(function(e){ return '<span class="talla-chip">'+e[0]+': '+e[1]+'</span>'; }).join('');
+      var tallaOrden = ['XS','S','M','L','XL','2XL','3XL','4XL'];
+      var tallasOrdenadas = Object.entries(tallas).sort(function(a,b){
+        var ia = tallaOrden.indexOf(a[0]); var ib = tallaOrden.indexOf(b[0]);
+        if (ia === -1) ia = 99; if (ib === -1) ib = 99;
+        return ia - ib;
+      });
+      var tallasHTML = tallasOrdenadas.map(function(e){ return '<span class="talla-chip">'+e[0]+': '+e[1]+'</span>'; }).join('');
       var variants = buildVariants(c);
       var imgPart = c.portada
         ? '<img src="'+c.portada+'" alt="'+c.equipo+'" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'block\'">'
