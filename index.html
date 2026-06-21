@@ -105,8 +105,11 @@
   <div class="filters">
     <div class="search-wrap">
       <i class="ti ti-search" aria-hidden="true"></i>
-      <input type="search" id="q" placeholder="Buscar equipo, jugador..." oninput="filter()" autocomplete="off">
+      <input type="search" id="q" placeholder="Buscar jugador, color..." oninput="filter()" autocomplete="off">
     </div>
+    <select id="equipo-select" onchange="filter()" style="padding:7px 10px;border:0.5px solid var(--border-strong);border-radius:var(--radius-md);background:var(--bg);color:var(--text-primary);font-size:14px;font-family:inherit;outline:none;cursor:pointer;min-width:140px">
+      <option value="">Todos los equipos</option>
+    </select>
     <div class="cat-pills" id="cat-pills">
       <button class="pill active" onclick="setCat(this,'')">Todos</button>
       <button class="pill" onclick="setCat(this,'Adulto')">Adulto</button>
@@ -156,6 +159,7 @@
   var shownCards = [];
   var activeCat = '';
   var activeYear = '';
+  var activeEquipo = '';
   var unsub = null;
   var modalFotos = [];
   var modalPhotoIdx = 0;
@@ -175,6 +179,19 @@
     filter();
   }
 
+  function buildEquipoSelect() {
+    var equipos = Array.from(new Set(allCards.map(function(c){ return c.equipo; }).filter(Boolean))).sort();
+    var select = document.getElementById('equipo-select');
+    var current = select.value;
+    select.innerHTML = '<option value="">Todos los equipos</option>';
+    equipos.forEach(function(e) {
+      var opt = document.createElement('option');
+      opt.value = e; opt.textContent = e;
+      if (e === current) opt.selected = true;
+      select.appendChild(opt);
+    });
+  }
+
   function buildYearPills() {
     var years = Array.from(new Set(allCards.map(function(c){ return c.anio; }).filter(Boolean))).sort().reverse();
     var container = document.getElementById('year-pills');
@@ -187,13 +204,15 @@
 
   function filter() {
     var q = (document.getElementById('q').value || '').toLowerCase().trim();
+    activeEquipo = document.getElementById('equipo-select').value;
     var shown = allCards.filter(function(c) {
       var matchCat = true;
       if (activeCat === 'Adulto') matchCat = c.categoria === 'Caballero' || c.categoria === 'Dama';
       else if (activeCat === 'Niño') matchCat = c.categoria === 'Niño';
       var matchYear = !activeYear || c.anio === activeYear;
-      var haystack = [c.equipo, c.dorsal, c.color, c.version, c.manga, c.anio].concat(Object.values(c.extras || {})).join(' ').toLowerCase();
-      return matchCat && matchYear && (!q || haystack.includes(q));
+      var matchEquipo = !activeEquipo || c.equipo === activeEquipo;
+      var haystack = [c.dorsal, c.color, c.version, c.manga].concat(Object.values(c.extras || {})).join(' ').toLowerCase();
+      return matchCat && matchYear && matchEquipo && (!q || haystack.includes(q));
     });
     shownCards = shown;
     renderCards(shown);
@@ -352,6 +371,7 @@
           return 0;
         });
         allCards = raw;
+        buildEquipoSelect();
         buildYearPills();
         setSyncStatus(true, 'En tiempo real');
         if (raw.length === 0) {
