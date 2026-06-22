@@ -224,7 +224,19 @@
 
   function buildVariants(c) {
     var parts = [c.color, c.version, c.manga, c.anio].filter(Boolean);
-    Object.values(c.extras || {}).forEach(function(v){ if(v) parts.push(v); });
+    Object.entries(c.extras || {}).forEach(function(e){
+      var k = e[0], v = e[1];
+      if (!v) return;
+      // Shorten "Edicion Especial" to just the value (e.g. "Copa America")
+      // and skip keys already shown (Estilo, Categoria)
+      if (k.toLowerCase().indexOf('estilo') === 0) return;
+      if (k.toLowerCase().indexOf('categor') === 0) return;
+      if (k.toLowerCase().indexOf('edicion') === 0) {
+        parts.push(v); // just show the value e.g. "Copa America"
+      } else {
+        parts.push(v);
+      }
+    });
     return parts.join(' · ');
   }
 
@@ -286,7 +298,15 @@
     document.getElementById('m-sub').textContent = [modalCard.color, modalCard.version, modalCard.manga, modalCard.anio].filter(Boolean).join(' · ');
     var tallas = modalCard.tallas || {};
     document.getElementById('m-tallas').innerHTML = Object.entries(tallas).map(function(e){ return '<span class="talla-chip">'+e[0]+': '+e[1]+'</span>'; }).join('');
-    document.getElementById('m-variants').textContent = Object.values(modalCard.extras || {}).filter(Boolean).join(' · ');
+    var extraParts = [];
+    Object.entries(modalCard.extras || {}).forEach(function(e){
+      var k = e[0], v = e[1];
+      if (!v) return;
+      if (k.toLowerCase().indexOf('estilo') === 0) return;
+      if (k.toLowerCase().indexOf('categor') === 0) return;
+      extraParts.push(v);
+    });
+    document.getElementById('m-variants').textContent = extraParts.join(' · ');
     var hasFotos = modalFotos.length > 0;
     var img = document.getElementById('m-img');
     var noimg = document.getElementById('m-noimg');
@@ -343,9 +363,12 @@
           if (stk <= 0) return;
           var extras = card.extras || {};
           var estilo = extras['Estilo'] || '';
-          var categoria = extras['Categoría'] || '';
-          var extrasOtros = Object.entries(extras).filter(function(e){ return e[0] !== 'Estilo' && e[0] !== 'Categoría'; }).sort(function(a,b){ return a[0].localeCompare(b[0]); });
-          var key = [card.eq, card.dor, card.col, card.ver, card['año'], estilo, extrasOtros.map(function(e){ return e[0]+'='+e[1]; }).join(',')].join('|');
+          var categoria = '';
+          Object.keys(extras).forEach(function(k) {
+            if (k.toLowerCase().indexOf('categor') === 0) categoria = extras[k];
+          });
+          var extrasOtros = Object.entries(extras).filter(function(e){ return e[0] !== 'Estilo' && e[0] !== 'Categoría' && e[0] !== 'Categoria'; }).sort(function(a,b){ return a[0].localeCompare(b[0]); });
+          var key = [card.eq, card.dor, card.col, card.ver, card['año'], estilo, categoria, extrasOtros.map(function(e){ return e[0]+'='+e[1]; }).join(',')].join('|');
           if (!grouped[key]) {
             var fotos = card.fotos || [];
             var portadaFoto = fotos.find(function(f){ return f.principal; }) || fotos[0];
